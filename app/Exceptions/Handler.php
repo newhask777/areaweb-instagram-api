@@ -29,12 +29,11 @@ class Handler extends ExceptionHandler
         });
     }
 
-
     public function render($request, Throwable $e)
     {
         $this->renderable(function (NotFoundHttpException $e) {
             return responseFailed($e->getMessage(), 404);
-         });
+        });
 
         return parent::render($request, $e);
     }
