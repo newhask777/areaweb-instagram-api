@@ -3,7 +3,13 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Comment;
+use App\Models\Like;
+use App\Models\Post;
+use App\Models\Subscription;
+use App\Models\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\App;
 
 class DatabaseSeeder extends Seeder
 {
@@ -12,11 +18,32 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // \App\Models\User::factory(10)->create();
+        User::factory(10)
+            ->has(Post::factory(3)
+                ->has(Comment::factory(4)->for(User::factory()))
+                ->has(Like::factory(10)->for(User::factory()))
+//                ->has(Comment::factory(4)->for(User::all()->random()))
+//                ->has(Like::factory(10)->for(User::all()->random()))
+            )->create();
 
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
+        $users = User::all();
+
+        foreach ($users as $user) {
+            $randomUsers = User::query()
+                ->inRandomOrder(rand(1, 30))
+                ->get();
+
+            $subscriptions = [];
+
+            foreach ($randomUsers as $randomUser) {
+                $subscriptions[] = [
+                    'user_id' => $user->id,
+                    'subscription_id' => $randomUser->id,
+                ];
+            }
+
+            Subscription::query()->insert($subscriptions);
+
+        }
     }
 }
