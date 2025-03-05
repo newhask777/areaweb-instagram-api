@@ -26,6 +26,7 @@ class RegisterTest extends TestCase
         $id = $response->json('id');
 
         $this->assertDatabaseHas(User::class, [
+            
             "id" => $id,
             "name" => Arr::get($data, 'name'),
             "email" => Arr::get($data, 'email'),
