@@ -10,7 +10,7 @@ class RegisterController extends Controller
 {
     public function __invoke(RegisterRequest $request)
     {
-        dd($request);
-        //        return User::store();
+        //dd($request);
+        return User::store($request->data());
     }
 }

@@ -2,11 +2,12 @@
 
 namespace App\Facades;
 
+use App\Services\User\Data\RegisterUserData;
 use App\Services\User\UserService;
 use Illuminate\Support\Facades\Facade;
 
 /**
- * @method static \App\Models\User store(array $data)
+ * @method static \App\Models\User store(RegisterUserData $data)
  *
  * @see \App\Services\User\UserService
  */
