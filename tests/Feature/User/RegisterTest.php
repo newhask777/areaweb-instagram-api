@@ -21,12 +21,35 @@ class RegisterTest extends TestCase
 
         $response = $this->post(route('user.register'), $data);
 
+        dd($response->json());
+
         $response->assertCreated();
 
         $id = $response->json('id');
 
+        $response->assertJsonStructure([
+            "name",
+            "email",
+            "subscribers",
+            "publications",
+            "avatar",
+            "about",
+            "isVerified",
+            "registeredAt"
+        ]);
+
+        $response->assertJson([
+            'name' => Arr::get($data, 'name'),
+            'email' => Arr::get($data,'email'),
+            'subscribers' => 0,
+            'publications' => 0,
+            'avatar' => null,
+            'about' => null,
+            'isVerified' => false,
+        ]);
+
         $this->assertDatabaseHas(User::class, [
-            
+
             "id" => $id,
             "name" => Arr::get($data, 'name'),
             "email" => Arr::get($data, 'email'),

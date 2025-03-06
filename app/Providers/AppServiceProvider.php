@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Http\Resources\User\CurrentUserResource;
 use App\Services\User\UserService;
 use Illuminate\Support\ServiceProvider;
 
@@ -20,6 +21,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        CurrentUserResource::withoutWrapping();
     }
 }
